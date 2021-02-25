@@ -13,19 +13,21 @@ module FactorialTests =
     [<TestCase(5, 120)>]
     [<TestCase(6, 720)>]
     [<TestCase(7, 5040)>]
-    let ``Should return correct value on non-negative integers`` (number:bigint, expected:bigint) =
-        match factorial number with 
-        | Some(value) -> value |> should be (equal expected)
+    let ``Should return correct value on non-negative integers`` (number:int, expected:int) =
+        match number |> bigint |> factorial with 
+        | Some(value) -> value |> should be (equal (expected |> bigint))
         | None -> failwith $"Expected {expected} but was None"
 
     [<Test>]
     let ``Should support big integer factorial`` () =
-        factorial 20I |> should be (equal 2432902008176640000I)
+        match factorial 20I with 
+        | Some(value) -> value |> should be (equal 2432902008176640000I)
+        | None -> failwith $"Expected value but was None"
 
     [<Test>]
     let ``Shouldn't fail on very big integer`` () =
         factorial 30000I |> should not' (be equal 0)
 
     [<Test>]
-    let ``Should return None on negative integers`` ([<Random(-1000, -1, 100)>] number:bigint) = 
-        factorial number |> should be (equal None)
+    let ``Should return None on negative integers`` ([<Random(-1000, -1, 100)>] number:int) = 
+        number |> bigint |> factorial |> should be (equal None)
