@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30225.117
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Find", "Find\Find.fsproj", "{285A497A-3BC1-4634-AC13-8E39A88B8FA4}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FindElement.Tests", "FindElement.Tests\FindElement.Tests.fsproj", "{8EC06F8E-C6FD-4B56-862F-012CC8F4546D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{285A497A-3BC1-4634-AC13-8E39A88B8FA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{285A497A-3BC1-4634-AC13-8E39A88B8FA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{285A497A-3BC1-4634-AC13-8E39A88B8FA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{285A497A-3BC1-4634-AC13-8E39A88B8FA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EC06F8E-C6FD-4B56-862F-012CC8F4546D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EC06F8E-C6FD-4B56-862F-012CC8F4546D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EC06F8E-C6FD-4B56-862F-012CC8F4546D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EC06F8E-C6FD-4B56-862F-012CC8F4546D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1FC87A6A-3175-4678-BFFB-3119335D97C7}
+	EndGlobalSection
+EndGlobal
