@@ -28,7 +28,9 @@ module FibonacciTests =
 
     [<Test>]
     let ``Shouldn't fail on very big integer`` () =
-        fibonacci 300000I |> should not' (be equal 0)
+        match fibonacci 300000I with 
+        | Some(value) -> value |> should be (greaterThan 280571172992510140037611932413038677189525999999I)
+        | None -> failwith $"Expected value but was None"
 
     [<Test>]
     let ``Should return None on negative integers`` ([<Random(-1000, -1, 100)>] number:int) = 
