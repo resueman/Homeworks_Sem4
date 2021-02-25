@@ -26,7 +26,9 @@ module FactorialTests =
 
     [<Test>]
     let ``Shouldn't fail on very big integer`` () =
-        factorial 30000I |> should not' (be equal 0)
+        match factorial 30000I with 
+        | Some(value) -> value |> should not' (be equal 0)
+        | None -> failwith $"Expected value but was None"
 
     [<Test>]
     let ``Should return None on negative integers`` ([<Random(-1000, -1, 100)>] number:int) = 
