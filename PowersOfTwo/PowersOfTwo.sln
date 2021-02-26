@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30225.117
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "PowersOfTwo", "PowersOfTwo\PowersOfTwo.fsproj", "{049C252F-F9CE-4BCE-844D-31AC23A58046}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "PowersOfTwo", "PowersOfTwo\PowersOfTwo.fsproj", "{049C252F-F9CE-4BCE-844D-31AC23A58046}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "PowersOfTwo.Tests", "PowersOfTwo.Tests\PowersOfTwo.Tests.fsproj", "{810B8805-2989-493E-AD74-33F786A0D9F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{049C252F-F9CE-4BCE-844D-31AC23A58046}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{049C252F-F9CE-4BCE-844D-31AC23A58046}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{049C252F-F9CE-4BCE-844D-31AC23A58046}.Release|Any CPU.Build.0 = Release|Any CPU
+		{810B8805-2989-493E-AD74-33F786A0D9F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{810B8805-2989-493E-AD74-33F786A0D9F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{810B8805-2989-493E-AD74-33F786A0D9F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{810B8805-2989-493E-AD74-33F786A0D9F0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
