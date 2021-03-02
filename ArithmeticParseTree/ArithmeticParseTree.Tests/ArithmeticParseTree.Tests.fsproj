@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ArithmeticParseTree\ArithmeticParseTree\ArithmeticParseTree.fsproj" />
+    <ProjectReference Include="..\ArithmeticParseTree\ArithmeticParseTree.fsproj" />
   </ItemGroup>
 
 </Project>
