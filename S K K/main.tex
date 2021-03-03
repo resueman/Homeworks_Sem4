@@ -1,0 +1,31 @@
+﻿\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english, russian]{babel}
+
+\begin{document}
+
+Дано:
+
+S = $\lambda$x y z.xz (yz)
+
+K = $\lambda$x y.x
+
+I = $\lambda$x.x 
+
+\vspace{5mm}
+
+Доказать:
+
+S K K = I
+
+\vspace{5mm}
+
+Доказательство:
+
+($\lambda$x y z.xz (yz)) ($\lambda$x y.x) ($\lambda$x y.x) 
+$\rightarrow_\beta$ 
+$\lambda$z.($\lambda$x.$\lambda$y.x z ($\lambda$x y.x z)) 
+$\rightarrow_\beta$
+$\lambda$z.z 
+
+\end{document}
