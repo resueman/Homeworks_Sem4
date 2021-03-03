@@ -1,0 +1,40 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{parskip}
+
+\begin{document}
+
+\section*{S K K}
+
+Дано: \\
+S = $\lambda$x y z.x z (y z) \\
+K = $\lambda$x y.x \\
+I = $\lambda$x.x
+
+Доказать: S K K = I
+
+Доказательство:\\
+($\lambda$x y z.x z (y z)) ($\lambda$x y.x) $\lambda$x y.x = (($\lambda$x y z.x z (y z)) ($\lambda$x y.x)) $\lambda$x y.x $\rightarrow_\beta$
+($\lambda$y z.($\lambda$x y.x) z (y z)) $\lambda$x y.x
+$\rightarrow_\beta$ \\
+$\rightarrow_\beta$
+($\lambda$y z.z) $\lambda$x y.x
+$\rightarrow_\beta$
+$\lambda$z.z
+
+\section*{$\beta$-reduction}
+
+(($\lambda$a.($\lambda$b.b b) ($\lambda$b.b b)) b) (($\lambda$c.(c b)) ($\lambda$a.a)) 
+$\rightarrow_\beta$ \\
+(($\lambda$b.b b) ($\lambda$b.b b)) (($\lambda$c.(c b)) ($\lambda$a.a)) 
+$\rightarrow_\beta$ 
+($\omega$ $\omega$) (($\lambda$c.(c b)) ($\lambda$a.a)) 
+$\rightarrow_\beta$ \\
+$\Omega$ (($\lambda$c.(c b)) ($\lambda$a.a)) 
+$\rightarrow_\beta$ 
+$\Omega$ (($\lambda$a.a) b)
+$\rightarrow_\beta$ 
+$\Omega$ b
+
+\end{document}
