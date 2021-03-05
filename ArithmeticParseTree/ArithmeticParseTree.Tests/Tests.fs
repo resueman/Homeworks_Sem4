@@ -1,6 +1,7 @@
 namespace ArithmeticParseTreeTests
 
-
+/// <summary>Contains tests for checking the correctness of 
+/// processing an arithmetic parse tree</summary>
 module Tests =
     open System
     open FsUnit
@@ -29,8 +30,8 @@ module Tests =
         Subtraction (Number 15, Number 7) |> evaluate |> should equal 8 
 
     [<TestCaseSource("complexExpressions")>]
-    let ``Should evaluate the value of complex expressions`` tree =
-        evaluate tree
+    let ``Should evaluate the value of complex expressions`` expression =
+        evaluate expression
 
     let complexExpressions = 
         [
