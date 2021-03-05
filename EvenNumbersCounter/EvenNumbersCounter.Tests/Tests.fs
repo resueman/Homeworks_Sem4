@@ -1,19 +1,25 @@
 namespace EvenNumbersCounter.Tests
 
+/// <summary>Contains tests for checking the correctness of 
+/// even numbers counters work</summary>
 module Tests =
     open NUnit.Framework
     open FsCheck
     open EvenNumbersCounter.EvenNumbersCounters
 
-    let ``Map counter should be equal as function to filter counter`` (list: list<int>) = 
-        mapCounter list = filterCounter list
+    [<Test>]
+    let ``Map counter should be equal as function to filter counter`` () = 
+        let ``Map counter should be equal as function to filter counter`` (list: list<int>) = 
+            mapCounter list = filterCounter list
     
-    Check.QuickThrowOnFailure ``Map counter should be equal as function to filter counter``
+        Check.QuickThrowOnFailure ``Map counter should be equal as function to filter counter``
 
-    let ``Filter counter should be equal as function to fold counter`` (list: list<int>) =
-        filterCounter list = foldCounter 0 list
+    [<Test>]
+    let ``Filter counter should be equal as function to fold counter`` () = 
+        let ``Filter counter should be equal as function to fold counter`` (list: list<int>) =
+            filterCounter list = foldCounter list
 
-    Check.QuickThrowOnFailure ``Filter counter should be equal as function to fold counter``
+        Check.QuickThrowOnFailure ``Filter counter should be equal as function to fold counter``
 
     [<TestCaseSource("testCases")>]
     let ``Map counter should return expected value`` list =
@@ -25,7 +31,7 @@ module Tests =
 
     [<TestCaseSource("testCases")>]
     let ``Fold counter should return expected value`` list =
-        foldCounter 0 list
+        foldCounter list
 
     let testCases = 
         [
