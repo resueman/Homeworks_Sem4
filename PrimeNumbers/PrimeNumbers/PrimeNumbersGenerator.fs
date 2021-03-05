@@ -1,7 +1,12 @@
 ﻿namespace PrimeNumbers
 
-module PrimeNumbers =
+/// <summary>Contains method that generates sequence of prime numbers</summary>
+module PrimeNumbersGenerator =
 
+    /// <summary>
+    /// Generates sequence of prime numbers
+    /// </summary>
+    /// <returns>Sequence of prime numbers</returns>
     let generatePrimes () =
         
         let isPrime n =
@@ -17,6 +22,3 @@ module PrimeNumbers =
         
         Seq.initInfinite(fun n -> n) |> Seq.filter(fun n -> isPrime n)
         // 0 |> Seq.unfold (fun n -> Some(n, n + 1)) |> Seq.filter(fun n -> isPrime n)
-
-    let sequence = generatePrimes ()
-    Seq.iter(fun x -> printf "%d " x) sequence
