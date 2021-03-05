@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31019.35
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "ArithmeticParseTree", "ArithmeticParseTree\ArithmeticParseTree.fsproj", "{4821A2D7-3AA8-4D58-8B1E-992D5367F76E}"
+EndProject
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "ArithmeticParseTree.Tests", "ArithmeticParseTree.Tests\ArithmeticParseTree.Tests.fsproj", "{F48D9949-073A-45EF-A5D6-C6104E7006C7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4821A2D7-3AA8-4D58-8B1E-992D5367F76E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4821A2D7-3AA8-4D58-8B1E-992D5367F76E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4821A2D7-3AA8-4D58-8B1E-992D5367F76E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4821A2D7-3AA8-4D58-8B1E-992D5367F76E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F48D9949-073A-45EF-A5D6-C6104E7006C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F48D9949-073A-45EF-A5D6-C6104E7006C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F48D9949-073A-45EF-A5D6-C6104E7006C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F48D9949-073A-45EF-A5D6-C6104E7006C7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {70043680-C0CA-4A07-8281-DDD6316E8C03}
+	EndGlobalSection
+EndGlobal
