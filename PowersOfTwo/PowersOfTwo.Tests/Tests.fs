@@ -13,11 +13,11 @@ module PowersOfTwoTests =
 
     [<Test>]
     let ``Should works correctly when n less than m`` () =
-        let n  = 2
+        let n = 2
         let m = 3
         match generateListOfPowers n m with
-        | Some(value) -> value |> should equal [4; 8; 16; 32;]
-        | None -> failwith "Expected [4; 8; 16; 32;] but was None"
+        | Some(value) -> value |> should equal [4; 8; 16; 32]
+        | None -> failwith "Expected [4; 8; 16; 32] but was None"
 
     [<Test>]
     let ``Should works correctly when m less than n`` () =
@@ -38,8 +38,8 @@ module PowersOfTwoTests =
     [<Test>]
     let ``Should works correctly when n equal to zero`` () =
         match generateListOfPowers 0 3 with
-        | Some(value) -> value |> should equal [1; 2; 4; 8;]
-        | None -> failwith "Expected [1; 2; 4; 8;] but was None"
+        | Some(value) -> value |> should equal [1; 2; 4; 8]
+        | None -> failwith "Expected [1; 2; 4; 8] but was None"
 
     [<Test>]
     let ``Should works correctly when m equal to zero`` () =
