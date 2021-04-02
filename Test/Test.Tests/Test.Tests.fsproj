@@ -15,7 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="Square.Tests.fs" />
     <Compile Include="ConcurrentsStack.Tests.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
