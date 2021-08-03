@@ -2,35 +2,36 @@
 
 module LambdaInterpreter =
     
-    type Variable = 
+    type Term = 
         | Var of string
-    and LambdaTerm = 
-        | Variable of Variable
-        | LambdaAbstarction of Variable * LambdaTerm
-        | Applique of LambdaTerm * LambdaTerm 
- 
-    let substitute leftTerm rightTerm = 
-        leftTerm // 
+        | Abs of string * Term
+        | App of Term * Term  
+
+    /// substitutes term to absBody instead of absVarName
+    let substitute substitutedTerm absVarName absBody =
+        let rec replace replacedName term =
+            match term with
+            | Var name when name = replacedName -> substitutedTerm
+            | Var _ -> term
+            | Abs(v, t) -> Abs(v, replace replacedName t)
+            | App(l, r) -> App(replace replacedName l, replace replacedName r)
+
+        replace absVarName absBody
+        
+    let rec reduceLeft left = 
+        match left with
+        | App(l, r) -> 
+            match reduceLeft l with
+            | Abs(absVarName, absBody) -> substitute r absVarName absBody
+            | _ -> l
+        | _ -> left
 
     let rec reduce term =
         match term with
-        | Variable _ -> term
-        | LambdaAbstarction (variable, term) -> LambdaAbstarction(variable, reduce term)
-        | Applique (left, right) ->
-            match left with
-            | LambdaAbstarction (_, _) -> substitute left right |> reduce
-            | _ -> Applique(reduce left, reduce right)
-
-    //  ((λa.(λb.b b) (λb.b b)) b) ((λc.(c b)) (λa.a))
-
-    //let term = Applique(
-    //               Applique(   
-    //                   Applique(
-    //                       LambdaAbstarction(Var("a"), LambdaAbstarction(Var("b"), Applique(Variable(Var("b")), Variable(Var("b"))))), 
-    //                       LambdaAbstarction(Var("b"), Applique(Variable(Var("b")), Variable(Var("b"))))), 
-    //                   Variable(Var("b"))),
-    //               Applique(
-    //                   LambdaAbstarction(Var("c"), Applique(Variable(Var("c")), Variable(Var("b")))), 
-    //                   LambdaAbstarction(Var("a"), Variable(Var("a")))))
-
-    //let reduced = reduce term
+        | Var(name) -> term
+        | Abs(var, term) -> Abs(var, reduce term)
+        | App(left, right) ->
+            match reduceLeft left with
+            | Abs(absVarName, absBody) -> reduce <| substitute right absVarName absBody // substitute right to absBody
+            | _ -> App (reduce left, reduce right)
+            
