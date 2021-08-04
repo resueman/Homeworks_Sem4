@@ -1,9 +1,9 @@
 module LambdaInterpreter.Tests
 
 open NUnit.Framework
-open FsUnit
 open LambdaInterpreter
 
+/// contains methods that check if lambda interpreter works correctly
 module Tests =
 
     let S = Abs("x", Abs("y", Abs("z", App(App(Var "x", Var "z"), App(Var "y", Var "z")))))
@@ -21,6 +21,20 @@ module Tests =
             TestCaseData(App(Abs("a", Abs("b", Abs("c", Abs("d", Var "x")))), Var "m")).Returns(Abs("b", Abs("c", Abs("d", Var "x"))))
         ]
 
+    let applicationSubstitutionCases = 
+        [
+            TestCaseData(App(I, App(Var "x", Var "y"))).Returns(App(Var "x", Var "y"))
+            TestCaseData(App(I, Abs("y", App(Var "y", App(Var "x", Abs("x", App(Var "x", Var "y"))))))).Returns(Abs("y", App(Var "y", App(Var "x", Abs("x", App(Var "x", Var "y"))))))
+            TestCaseData(App(Abs("x", Var "y"), App(Var "y", App(Var "x", Abs("x", App(Var "x", Var "y")))))).Returns(Var "y")
+        ]
+
+    let abstractionSubstitutionCases = 
+        [
+            TestCaseData(App(I, I)).Returns(I)
+            TestCaseData(App(I, Abs("y", App(Var "y", Var "x")))).Returns(Abs("y", App(Var "y", Var "x")))
+            TestCaseData(App(Abs("x", Var "y"), Abs("x", App(Var "x", Var "y")))).Returns(Var "y")
+        ]
+
     let normalFormAchievedOnlyByNormalReductionCases =
         [ 
             TestCaseData(App(Abs("x", Var "y"), App(triplet, triplet))).Returns(Var "y")
@@ -32,11 +46,6 @@ module Tests =
             TestCaseData(Abs("z", App(App(Abs("x", Abs("y", Var "x")), Var "z"), App(Abs("x", Abs("y", Var "x")), Var "z")))).Returns(I) // 3 -> 5
             TestCaseData(App(Abs("y", Abs("z", App(App(Abs("x", Abs("y", Var "x")), Var "z"), App(Var "y", Var "z")))), Abs("x", Abs("y", Var "x")))).Returns(I) // 2 -> 5
             TestCaseData(App(App(S, K), K)).Returns(I) // 1 -> 5
-        ]
-
-    let abstractionSubstitutionCases = 
-        [
-            TestCaseData(App(I, I)).Returns(I)
         ]
     
     let renamingCases = 
@@ -52,23 +61,28 @@ module Tests =
             TestCaseData(W).Returns(W)
             TestCaseData(App(App(Abs("a", W), Var "b"), App(Abs("c", App(Var "c", Var "b")), I))).Returns(App(W, Var "b"))
             TestCaseData(App(triplet, triplet)).Returns(App(triplet, triplet))
+            TestCaseData(App(W, W)).Returns(App(W, W))
+            TestCaseData(App(W, w)).Returns(App(W, w))
         ] 
 
-    [<Test>]
     [<TestCaseSource("variableSubstitutionsCases")>]
     let ``Should substitute variable correctly`` expression =
         reduce expression
     
+    [<TestCaseSource("abstractionSubstitutionCases")>]
+    let ``Should substitute abstraction correctly`` expression =
+        reduce expression
+
+    [<TestCaseSource("applicationSubstitutionCases")>]
+    let ``Should substitute application correctly`` expression =
+        reduce expression
+
     [<TestCaseSource("reductionToNormalFormCases")>]   
     let ``Should reduce to normal form`` expression =
         reduce expression
 
     [<TestCaseSource("normalFormAchievedOnlyByNormalReductionCases")>]
     let ``Should reduce using normal reducing strategy`` expression =
-        reduce expression
-    
-    [<TestCaseSource("abstractionSubstitutionCases")>]
-    let ``Should substitute abstraction correctly`` expression =
         reduce expression
 
     [<TestCaseSource("renamingCases")>]

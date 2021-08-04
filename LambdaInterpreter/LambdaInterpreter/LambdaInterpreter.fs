@@ -1,16 +1,21 @@
 ﻿namespace LambdaInterpreter
 
+/// contains types that help to describe lambda expressions and methods that allow to reduce them
 module LambdaInterpreter =
     
+    /// describes lambda-term
     type Term = 
         | Var of string
         | Abs of string * Term
         | App of Term * Term  
 
+    /// describes all vars of particular term, devides them to bounded and free
     type TermVars = {Free: string list; Bounded: string list}
 
-    /// substitutes term to absBody instead of absVarName
+    /// substitutes term to absBody instead of absVarName, returns pair of term in which we substituted value and value that indicates if term has normal form
+    /// if after substitution term wasn't reduced, we return false and term before substitution; otherwise we return true and term after substitution
     let substitute substitutedTerm absVarName absBody =
+        /// returns clasterized to free and bounded variables names of term
         let getVars term = 
             let rec get term free bounded = 
                 match term with
@@ -26,8 +31,11 @@ module LambdaInterpreter =
                                 { Free = freeVars; Bounded = boundedVars }
             get term [] []
 
+        /// contains clasterized to free and bounded variables names of abstraction body, where another term will be substituted
+        let absBodyVars = getVars absBody
+
+        /// renames term-destination variables that after substitution may become bounded, which will lead to incorrect reduction
         let renameIfNeeded term =
-            let absBodyVars = getVars absBody
             let substitutedTermVars = getVars substitutedTerm
             let renamingVars = List.filter (fun x -> List.contains x substitutedTermVars.Free) absBodyVars.Bounded
             let replacements = List.map (fun x -> x + "\'") renamingVars |> List.zip renamingVars
@@ -51,13 +59,18 @@ module LambdaInterpreter =
             else 
                 doRenaming term
 
+        /// performs substitution of term to abstraction inner term instead of abstraction bounded variable
         let rec performSubstitution replacedName term =
-            match term with
-            | Var name when name = replacedName -> substitutedTerm
-            | Var _ -> term
-            | Abs(v, t) -> Abs(v, performSubstitution replacedName t)
-            | App(l, r) -> App(performSubstitution replacedName l, performSubstitution replacedName r) 
+            if List.contains absVarName absBodyVars.Free |> not then
+                term
+            else
+                match term with
+                | Var name when name = replacedName -> substitutedTerm
+                | Var _ -> term
+                | Abs(v, t) -> Abs(v, performSubstitution replacedName t)
+                | App(l, r) -> App(performSubstitution replacedName l, performSubstitution replacedName r) 
 
+        /// counts term nodes
         let countNodes term = 
             let rec count term = 
                 match term with
@@ -67,22 +80,22 @@ module LambdaInterpreter =
             
             count term
 
-        let newTerm = renameIfNeeded absBody |> performSubstitution absVarName
-        
-        if 1 + countNodes absBody + countNodes substitutedTerm <= countNodes newTerm then
+        let newAbsBody = renameIfNeeded absBody |> performSubstitution absVarName        
+        if 1 + countNodes absBody + countNodes substitutedTerm <= countNodes newAbsBody then
             false, App(Abs(absVarName, absBody), substitutedTerm) 
         else 
-            true, newTerm
-
-    ///////
+            true, newAbsBody
+    
+    /// reduces leftmost term
     let rec reduceLeft left = 
         match left with
         | App(l, r) -> 
             match reduceLeft l with
-            | Abs(absVarName, absBody) -> substitute r absVarName absBody |> snd ////// 
+            | Abs(absVarName, absBody) -> substitute r absVarName absBody |> snd
             | _ -> l                                                     
         | _ -> left
-
+    
+    /// reduses term to normal form, if it exists, using normal strategy; otherwise reduses to normal form those parts of term that have it
     let rec reduce term =
         match term with
         | Var _ -> term
