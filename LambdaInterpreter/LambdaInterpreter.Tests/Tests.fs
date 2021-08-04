@@ -42,14 +42,16 @@ module Tests =
     let renamingCases = 
         [
             TestCaseData(App(Abs("a", Abs("b", Abs("c", Abs("d", Var "a")))), Var "b")).Returns(Abs("b'", Abs("c", Abs("d", Var "b"))))
-            TestCaseData(App(Abs("a", Abs("b", Abs("c", Abs("d", Var "b")))), Var "b")).Returns(Abs("b'", Abs("c", Abs("d", Var "b'"))))
+            TestCaseData(App(Abs("a", Abs("b", Abs("c", Abs("d", Var "b")))), Var "b")).Returns(Abs("b", Abs("c", Abs("d", Var "b"))))
             TestCaseData(App(Abs("a", Abs("b", Abs("c", Abs("d", Var "a")))), Var "c")).Returns(Abs("b", Abs("c'", Abs("d", Var "c"))))
             TestCaseData(App(App(App(Abs("x", Abs("y", Abs("z", App(App(Var "x", Var "y"), Var "z")))), App(Var "y", Var "z")), Var "x"), Var "z")).Returns(App(App(App(Var "y", Var "z"), Var "x"), Var "z"))
         ]
 
     let noNormalFormCases = 
         [
-        
+            TestCaseData(W).Returns(W)
+            TestCaseData(App(App(Abs("a", W), Var "b"), App(Abs("c", App(Var "c", Var "b")), I))).Returns(App(W, Var "b"))
+            TestCaseData(App(triplet, triplet)).Returns(App(triplet, triplet))
         ] 
 
     [<Test>]
@@ -72,7 +74,7 @@ module Tests =
     [<TestCaseSource("renamingCases")>]
     let ``Should rename when it needed`` expression =
         reduce expression
-
+      
     [<TestCaseSource("noNormalFormCases")>]
     let ``Should return term even if normal form doesn't exist`` expression =
         reduce expression

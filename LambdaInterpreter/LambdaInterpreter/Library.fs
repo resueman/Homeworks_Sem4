@@ -26,10 +26,18 @@ module LambdaInterpreter =
                                 { Free = freeVars; Bounded = boundedVars }
             get term [] []
 
-        let rename toRename term =
-            let replacements = List.map (fun x -> x + "\'") toRename |> List.zip toRename
-            let getReplacement name = List.find (fun x -> fst x = name) replacements |> snd
-            let shouldBeReplaced name = List.contains name (List.map fst replacements)
+        let renameIfNeeded term =
+            let absBodyVars = getVars absBody
+            let substitutedTermVars = getVars substitutedTerm
+            let renamingVars = List.filter (fun x -> List.contains x substitutedTermVars.Free) absBodyVars.Bounded
+            let replacements = List.map (fun x -> x + "\'") renamingVars |> List.zip renamingVars
+            
+            let getReplacement name = 
+                List.find (fun x -> fst x = name) replacements |> snd
+            
+            let shouldBeReplaced name = 
+                List.contains name (List.map fst replacements)
+            
             let rec doRenaming term = 
                 match term with
                 | Var name when shouldBeReplaced name -> getReplacement name |> Var
@@ -38,38 +46,52 @@ module LambdaInterpreter =
                 | Abs(name, innerTerm) -> Abs(name, doRenaming innerTerm)
                 | _ -> term
 
-            if toRename = [] then 
+            if renamingVars = [] || List.contains absVarName absBodyVars.Free |> not then 
                 term
             else 
                 doRenaming term
 
-        let rec replace replacedName term =
+        let rec performSubstitution replacedName term =
             match term with
             | Var name when name = replacedName -> substitutedTerm
             | Var _ -> term
-            | Abs(v, t) -> Abs(v, replace replacedName t)
-            | App(l, r) -> App(replace replacedName l, replace replacedName r)
+            | Abs(v, t) -> Abs(v, performSubstitution replacedName t)
+            | App(l, r) -> App(performSubstitution replacedName l, performSubstitution replacedName r) 
 
-        let absBodyVars = getVars absBody
-        let substitutedTermVars = getVars substitutedTerm
-        let renamingVars = List.filter (fun x -> List.contains x substitutedTermVars.Free) absBodyVars.Bounded
-        let renamedTerm = rename renamingVars absBody
-        replace absVarName renamedTerm
+        let countNodes term = 
+            let rec count term = 
+                match term with
+                | Var _ -> 1
+                | Abs (x, inner) -> 2 + (count inner)
+                | App (l, r) -> 1 + (count l) + (count r)
+            
+            count term
 
+        let newTerm = renameIfNeeded absBody |> performSubstitution absVarName
+        
+        if 1 + countNodes absBody + countNodes substitutedTerm <= countNodes newTerm then
+            false, App(Abs(absVarName, absBody), substitutedTerm) 
+        else 
+            true, newTerm
+
+    ///////
     let rec reduceLeft left = 
         match left with
         | App(l, r) -> 
             match reduceLeft l with
-            | Abs(absVarName, absBody) -> substitute r absVarName absBody
-            | _ -> l
+            | Abs(absVarName, absBody) -> substitute r absVarName absBody |> snd ////// 
+            | _ -> l                                                     
         | _ -> left
 
     let rec reduce term =
         match term with
-        | Var(name) -> term
+        | Var _ -> term
         | Abs(var, term) -> Abs(var, reduce term)
         | App(left, right) ->
-            match reduceLeft left with
-            | Abs(absVarName, absBody) -> reduce <| substitute right absVarName absBody // substitute right to absBody
+            match reduceLeft left with              
+            | Abs(absVarName, absBody) -> let result = substitute right absVarName absBody
+                                          match fst result with
+                                          | true -> snd result |> reduce
+                                          | false -> snd result
             | _ -> App (reduce left, reduce right)
             
