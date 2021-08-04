@@ -72,13 +72,13 @@ module LambdaInterpreter =
 
         /// counts term nodes
         let countNodes term = 
-            let rec count term = 
+            let rec count term counter = 
                 match term with
-                | Var _ -> 1
-                | Abs (x, inner) -> 2 + (count inner)
-                | App (l, r) -> 1 + (count l) + (count r)
+                | Var _ -> 1 + counter
+                | Abs (x, inner) -> count inner counter |> (+) 2
+                | App (l, r) -> counter + 1 |> count l |> count r
             
-            count term
+            count term 0
 
         let newAbsBody = renameIfNeeded absBody |> performSubstitution absVarName        
         if 1 + countNodes absBody + countNodes substitutedTerm <= countNodes newAbsBody then
