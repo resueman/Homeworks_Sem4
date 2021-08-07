@@ -9,8 +9,10 @@ module LambdaParser =
         | Var of string
         | Abs of string * Term
         | App of Term * Term
-
+    
     /// intermediate representation of lambda-expression
+    type NamedT = 
+        NamedT of string * T
     and T =  
         T of Primary * T'
     and Primary =
@@ -56,13 +58,9 @@ module LambdaParser =
         let application = (pchar ' ') >>. primary .>>. t' |>> App
         t'Ref := application <|> (preturn T'.Epsilon)
 
-        tRef := primary .>>. t' |>> T
+        tRef :=  primary .>>. t' |>> T
+        let nameOfTerm =  pstring("let") .>> spaces >>. name .>> spaces .>> pchar('=') .>> spaces
 
-        input |> run t
+        let namedTerm = (nameOfTerm <|> preturn "") .>>. t |>> NamedT
 
-    /// parse lambda expression and returns option with abstract syntax tree, if expression was in correct form; otherwise returns None
-    let parse input =
-        let intermediateTree = buildIntermediateRepresentation input
-        match intermediateTree with
-        | Success(r, _, _) -> buildAST r |> Some
-        | _ -> None
+        input |> run namedTerm

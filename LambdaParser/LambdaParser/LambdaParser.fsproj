@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <Compile Include="LambdaParser.fs" />
+    <Compile Include="LambdaParserUI.fs" />
   </ItemGroup>
 
   <ItemGroup>
