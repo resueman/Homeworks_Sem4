@@ -1,14 +1,16 @@
 ﻿namespace LambdaParser
 
+/// contains methods to parse string with lambda-expression and to represent result as abstract syntax tree  
 module LambdaParser =
     open FParsec
 
-    /// AST
+    /// abstract syntax tree that represents lambda-expression
     type Term = 
         | Var of string
         | Abs of string * Term
         | App of Term * Term
 
+    /// intermediate representation of lambda-expression
     and T =  
         T of Primary * T'
     and Primary =
@@ -19,17 +21,34 @@ module LambdaParser =
         | App of Primary * T'
         | Epsilon
 
-    let parse input = 
+    /// builds abstract syntax tree from intermediate representstion, which was built by input string with lambda expression
+    let rec buildAST exp =
+        let buildPrimary primary = 
+            match primary with
+            | Var name -> Term.Var(name)
+            | Brackets t -> buildAST t
+            | Abs (name, t) -> Term.Abs(name, buildAST t)
+
+        let rec buildT' t' acc =
+            match t' with
+            | Epsilon -> acc
+            | App(p, r) -> Term.App(acc, buildPrimary p) |> buildT' r 
+
+        let buildT (T(primary, t')) = buildT' t' (buildPrimary primary)
+            
+        buildT exp
+
+    /// builds intermediate representation of lambda-expression by input string with lambda-expression
+    let buildIntermediateRepresentation input = 
         let t, tRef = createParserForwardedToRef()
-        let name = many1Satisfy isLetter
-        let brackets = (pchar '(') >>. t .>> (pchar ')') |>> Brackets 
         
-        let abstraction = (attempt ((pchar '\\') >>. name .>> (pchar '.') .>>. t |>> Abs)) // "\x.x"
+        let name = many1Satisfy isLetter
+        let variable = name |>> Var
+        let brackets = (pchar '(') >>. t .>> (pchar ')') |>> Brackets 
+        let abstraction = attempt ((pchar '\\') >>. name .>> (pchar '.') .>>. t |>> Abs) // "\x.x"
                             <|> ((pchar '\\') >>. name .>>. t |>> Abs) // "\x y.x"
                             <|> (attempt ((pchar ' ') >>. name .>> (pchar '.') .>>. t |>> Abs)) // " x.x"
                             <|> ((pchar ' ') >>. name .>>. t |>> Abs) // " y z.x"
-
-        let variable = name |>> Var <|> (spaces >>. name |>> Var)
 
         let primary = brackets <|> abstraction <|> variable                
 
@@ -39,5 +58,11 @@ module LambdaParser =
 
         tRef := primary .>>. t' |>> T
 
-        let result = input |> run t
-        printf "%A\n" result |> ignore
+        input |> run t
+
+    /// parse lambda expression and returns option with abstract syntax tree, if expression was in correct form; otherwise returns None
+    let parse input =
+        let intermediateTree = buildIntermediateRepresentation input
+        match intermediateTree with
+        | Success(r, _, _) -> buildAST r |> Some
+        | _ -> None
