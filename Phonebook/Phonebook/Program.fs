@@ -15,9 +15,9 @@ let printMenu =
     
 let printFields fields =
     match fields with
-    | Some([]) -> printfn "No fields"
+    | Some([]) -> printfn "No records"
     | Some(values) -> values |> List.map (sprintf "%s") |> List.iter (printfn "%s")
-    | None -> printfn "Fields not found"
+    | None -> printfn "Records not found"
 
 let rec loop database = 
     printfn ""
