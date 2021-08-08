@@ -8,6 +8,7 @@
   <ItemGroup>
     <Compile Include="Commands.fs" />
     <Compile Include="Phonebook.fs" />
+    <Compile Include="PhonebookService.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 

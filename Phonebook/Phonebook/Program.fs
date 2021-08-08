@@ -1,24 +1,26 @@
 ﻿open System
 open Commands
-open Phonebook
+open PhonebookService
 
 let printMenu = 
-    printf "Hello, it's a phonebook!\n"
-    printf "Please, enter command:\n"
-    printf "%s\n" exitCommand
-    printf "%s <phone> <name>\n" addCommand
-    printf "%s <name>\n" findPhonesCommand
-    printf "%s <phone>\n" findNamesCommand
-    printf "%s\n" printAllCommand
-    printf "%s <filename>\n" saveCommand
-    printf "%s <filename>\n\n" restoreCommand    
+    printfn "Hello, it's a phonebook!"
+    printfn "Please, enter command:"
+    printfn "%s" exitCommand
+    printfn "%s <phone> <name>" addCommand
+    printfn "%s <name>" findPhonesCommand
+    printfn "%s <phone>" findNamesCommand
+    printfn "%s" printAllCommand
+    printfn "%s <filename>" saveCommand
+    printfn "%s <filename>" restoreCommand    
     
 let printFields fields =
     match fields with
-    | Some(values) -> values |> List.map (sprintf "%s\n") |> List.iter (printf "%s")
-    | None -> printfn "Fields not found\n\n"
+    | Some([]) -> printfn "No fields"
+    | Some(values) -> values |> List.map (sprintf "%s") |> List.iter (printfn "%s")
+    | None -> printfn "Fields not found"
 
 let rec loop database = 
+    printfn ""
     let input = Console.ReadLine()
     let command = input.Trim().Split(' ').[0];
     match command with
@@ -33,10 +35,10 @@ let rec loop database =
     | x when x = saveCommand -> save input database
                                 loop database
     | x when x = restoreCommand -> restore input database |> loop
-    | _ -> printfn "No such a command, try again\n\n"
+    | _ -> printfn "No such a command, try again"
            loop database
 
 [<EntryPoint>]
-let main argv =
+let main _ =
     loop List.Empty |> ignore
     0
