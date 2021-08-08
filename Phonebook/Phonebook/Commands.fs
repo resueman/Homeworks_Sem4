@@ -1,4 +1,5 @@
-﻿module Commands
+﻿/// contains commands that supported by phonebook
+module Commands
 
     let exitCommand = "exit"
     let addCommand = "add"

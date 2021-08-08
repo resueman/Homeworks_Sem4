@@ -1,9 +1,11 @@
-﻿module PhonebookService
+﻿/// contains phonebook interaction interface for user
+module PhonebookService
 
     open Commands
     open Phonebook
     open System.Text.RegularExpressions
 
+    /// adds records given as string with phone and name to phonebook
     let add input database = 
         let regex = new Regex(@$"^\s*{addCommand}\s+(.+)\s+(.+)\s*$")
         let inputMatch = regex.Match input
@@ -15,7 +17,8 @@
         else
             printfn "Incorrect number of arguments for '%s' command" addCommand
             database
-
+    
+    /// finds names by phone 
     let findNames input database = 
         let regex = new Regex(@$"^\s*{findNamesCommand}\s+(.+)\s*$")
         let inputMatch = regex.Match input
@@ -26,6 +29,7 @@
             printfn "Incorrect number of arguments for '%s' command" findNamesCommand
             None
 
+    /// finds phones by name
     let findPhones input database = 
         let regex = new Regex(@$"^\s*{findPhonesCommand}\s+(.+)\s*$")
         let inputMatch = regex.Match input
@@ -36,6 +40,7 @@
             printfn "Incorrect number of arguments for '%s' command" findPhonesCommand
             None
 
+    /// saves phonebook's records to given file
     let save input database = 
         let regex = new Regex(@$"^\s*{saveCommand}\s+(.+)\s*$")
         let inputMatch = regex.Match input
@@ -46,6 +51,7 @@
         else
             printfn "Incorrect number of arguments for '%s' command" saveCommand
 
+    /// returns phonebook restored from the given file
     let restore input oldDatabase =
         let regex = new Regex(@$"^\s*{restoreCommand}\s+(.+)\s*$")
         let inputMatch = regex.Match input
@@ -65,7 +71,8 @@
         match newDatabase with
         | Some db -> db
         | None -> oldDatabase
-
+    
+    /// prints all records of phonebook
     let printAll database = 
         match database with
         | [] -> printfn "Database is empty"

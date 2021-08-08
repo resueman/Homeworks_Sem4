@@ -2,6 +2,7 @@
 open Commands
 open PhonebookService
 
+/// prints menu
 let printMenu = 
     printfn "Hello, it's a phonebook!"
     printfn "Please, enter command:"
@@ -12,13 +13,15 @@ let printMenu =
     printfn "%s" printAllCommand
     printfn "%s <filename>" saveCommand
     printfn "%s <filename>" restoreCommand    
-    
+   
+/// prints database fields   
 let printFields fields =
     match fields with
     | Some([]) -> printfn "No records"
     | Some(values) -> values |> List.map (sprintf "%s") |> List.iter (printfn "%s")
     | None -> printfn "Records not found"
 
+/// processes user input
 let rec loop database = 
     printfn ""
     let input = Console.ReadLine()
