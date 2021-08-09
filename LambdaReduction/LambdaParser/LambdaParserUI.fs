@@ -1,6 +1,6 @@
 ﻿namespace LambdaParser
 
-/// provideы the user with an interface to interact with the lambda-interpreter
+/// provides the user with an interface to interact with the lambda-interpreter
 module LambdaParserUI = 
     open AST
     open LambdaParser

@@ -1,3 +1,4 @@
+/// contains functions that checks if lambda-parser works correctly
 module LambdaParser.Tests
 
     open FsUnit
@@ -88,7 +89,6 @@ module LambdaParser.Tests
         parseFromString "let A = \x.(x y) (z)\nA" |> should equal (Some(Abs("x", App(App(Var "x", Var "y"), Var "z"))))
         parseFromString "let A = \x.x (y z)\nA" |> should equal (Some(Abs("x", App(Var "x", App(Var "y", Var "z")))))
         parseFromString "let A = \x.(x) y z\nA" |> should equal (Some(Abs("x", App(App(Var "x", Var "y"), Var "z"))))
-        parseFromString "let A = \x.(\y.z) k d\nA" |> should equal (Some(Abs("x", App(App(Abs("y", Var "z"), Var "k"), Var "d"))))
 
     [<Test>]
     let ``Should parse lambda-abstraction with many parameters, which returns variable, correctly`` () =
@@ -101,18 +101,22 @@ module LambdaParser.Tests
         parseFromString "let LA = \x.(\y.(\z.(\d.x)))\nLA" |> should equal (Some(Abs("x", (Abs("y", (Abs("z", (Abs("d", Var "x")))))))))
 
     [<Test>]
-    let ``Should parse difficult lambda-abstractions`` () =
-        Assert.Pass()
-
-    [<Test>]
     let ``Should parse any lambda-term consisting of named definitions correctly`` () =
-        Assert.Pass()
+        parseFromString "let A = a\nlet B = b\nlet C = c\nlet D = d\nA B C D" |> should equal (Some(App(App(App(Var "a", Var "b"), Var "c"), Var "d")))
+        parseFromString "let A = a\nlet B = b\nlet C = c\nlet D = d\n(A B) (C D)" |> should equal (Some(App(App(Var "a", Var "b"), App(Var "c", Var "d"))))
+        parseFromString "let A = a\nlet B = b\nlet C = c\nlet D = d\nA (B C) D" |> should equal (Some(App(App(Var "a", App(Var "b", Var "c")), Var "d")))
+        parseFromString "let A = a\nlet B = b\nlet C = c\nlet D = d\nA (B (C D))" |> should equal (Some(App(Var "a", App(Var "b", App(Var "c", Var "d")))))
 
     [<Test>]
-    let ``Should build AST correctly`` () =
+    let ``Should parse difficult terms correctly`` () =
+        parseFromString "let A = \x.(\y.z) k d\nA" |> should equal (Some(Abs("x", App(App(Abs("y", Var "z"), Var "k"), Var "d"))))
         parseFromString "let LA = \x y.x y\nLA" |> should equal (Some(Abs("x", Abs("y", App(Var "x", Var "y")))))
         parseFromString "let LA = \x y.(x) (y)\nLA" |> should equal (Some(Abs("x", Abs("y", App(Var "x", Var "y")))))
         parseFromString "let LA = \x y z.(a b) (x y)\nLA" |> should equal (Some(Abs("x", Abs("y", Abs("z", App(App(Var "a", Var "b"), App(Var "x", Var "y")))))))
+        parseFromString "let LA = \x.\y.\z.(a b) (x y)\nLA" |> should equal (Some(Abs("x", Abs("y", Abs("z", App(App(Var "a", Var "b"), App(Var "x", Var "y")))))))
         parseFromString "let LA = \x y z.(a b)\nlet App = (x y)\nLA App" |> should equal (Some(App(Abs("x", Abs("y", Abs("z", App(Var "a", Var "b")))), XY)))
         parseFromString "let LA1 = \x y.x\nlet LA2 = \d z.z\nLA1 LA2" |> should equal (Some(App(K, DZ'Z)))
         parseFromString "let S = \x y z.x z (y z)\nlet K = \x y.x\nS K K" |> should equal (Some(App(App(S, K), K)))
+        parseFromString "let A = (\x y.x (\m.k (j k) \l.\s.\w y z.i)) z (z k) (\x y.(y u) x)\nA" 
+        |> should equal (Some(App(App(App(Abs("x", Abs("y", App(Var "x", Abs("m", App(App(Var "k", App(Var "j", Var "k")), Abs("l", Abs("s", Abs("w", Abs("y", Abs("z", Var "i")))))))))), 
+                                          Var "z"), App(Var "z", Var "k")), Abs("x", Abs("y", App(App(Var "y", Var "u"), Var "x"))))))

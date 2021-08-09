@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="AstDecoder.fs" />
     <Compile Include="LambdaParser.fs" />
     <Compile Include="LambdaParserUI.fs" />
   </ItemGroup>

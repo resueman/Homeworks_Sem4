@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <Compile Include="LambdaParser.Tests.fs" />
+    <Compile Include="ASTDecoder.Tests.fs" />
   </ItemGroup>
 
   <ItemGroup>
