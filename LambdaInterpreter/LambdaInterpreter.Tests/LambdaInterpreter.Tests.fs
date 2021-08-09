@@ -1,10 +1,9 @@
-module LambdaInterpreter.Tests
-
-open NUnit.Framework
-open LambdaInterpreter
-
 /// contains methods that check if lambda interpreter works correctly
-module Tests =
+module LambdaInterpreter.Tests 
+    
+    open AST
+    open NUnit.Framework
+    open LambdaInterpreter
 
     let S = Abs("x", Abs("y", Abs("z", App(App(Var "x", Var "z"), App(Var "y", Var "z")))))
     let K = Abs("x", Abs("y", Var "x"))

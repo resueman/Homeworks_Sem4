@@ -3,11 +3,7 @@
 /// contains types that help to describe lambda expressions and methods that allow to reduce them
 module LambdaInterpreter =
     
-    /// describes lambda-term
-    type Term = 
-        | Var of string
-        | Abs of string * Term
-        | App of Term * Term  
+    open AST
 
     /// describes all vars of particular term, devides them to bounded and free
     type TermVars = {Free: string list; Bounded: string list}
