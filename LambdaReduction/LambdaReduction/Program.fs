@@ -1,4 +1,8 @@
 ﻿open System
+open System.Text.RegularExpressions
+open LambdaParser.LambdaParserUI
+open LambdaInterpreter.LambdaInterpreter
+open AstDecoder
 
 let printMenu = 
     printfn "Welcome to lambda-reductor!"
@@ -16,12 +20,27 @@ let printOptions =
     printfn "1 <string> -- Enter input as string"
     printfn "2 <filename> -- Get input from file"
 
-let rec loop = 
+let processAST option = 
+    match option with
+    | Some term -> term |> reduce |> buildLambdaExpressionFromAST |> printfn "Reduced: %s"
+    | None -> printfn "Unable to parse input"
+
+let rec loop () = 
     printOptions
-    //let input = Console.ReadLine()
+    let input = Console.ReadLine()
+    let regex = Regex("^\s*([1 2])\s+(.+)\s*$")
+    let inputMatch = regex.Match input
+    if inputMatch.Success then
+        if inputMatch.Groups.[1].Value = "1" then
+            parseFromString inputMatch.Groups.[2].Value |> processAST
+        else 
+            parseFromFile inputMatch.Groups.[2].Value |> processAST
+    else
+        printfn "incorrect request"
+        loop ()
 
 [<EntryPoint>]
-let main argv =
+let main _ =
     printMenu
-    loop
+    loop ()
     0
