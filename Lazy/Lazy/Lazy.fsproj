@@ -6,7 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Library.fs" />
+    <Compile Include="ILazy.fs" />
+    <Compile Include="Lazy.fs" />
+    <Compile Include="BarrierConcurrentLazy.fs" />
+    <Compile Include="LockFreeConcurrentLazy.fs" />
+    <Compile Include="LazyFactory.fs" />
   </ItemGroup>
 
 </Project>
