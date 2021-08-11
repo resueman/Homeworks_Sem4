@@ -1,5 +1,7 @@
 ﻿namespace Lazy
 
+    /// Returns a lazily initialized value with a guarantee of correct work in a multithreading program
+    /// The first call causes the calculation and returns the result, next calls return the same object as the first call
     type BarrierConcurrentLazy<'a>(supplier: unit -> 'a) = 
         [<VolatileField>]
         let mutable instance = None
@@ -9,7 +11,7 @@
             member this.Get () =
                 lock lockObj (fun () -> 
                     if instance.IsNone then 
-                        let value = () |> supplier |> Some
+                        let value = supplier() |> Some
                         instance <- value)
 
                 instance.Value

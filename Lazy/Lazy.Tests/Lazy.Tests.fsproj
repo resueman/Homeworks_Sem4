@@ -18,4 +18,8 @@
     <Compile Include="Lazy.Tests.fs" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Lazy\Lazy.fsproj" />
+  </ItemGroup>
+
 </Project>
