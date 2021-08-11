@@ -6,6 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="IOS.fs" />
+    <Compile Include="IComputer.fs" />
     <Compile Include="LocalNetwork.fs" />
   </ItemGroup>
 
