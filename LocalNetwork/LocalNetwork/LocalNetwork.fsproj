@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="IOS.fs" />
+    <Compile Include="IComputer.fs" />
+    <Compile Include="LocalNetwork.fs" />
+  </ItemGroup>
+
+</Project>
