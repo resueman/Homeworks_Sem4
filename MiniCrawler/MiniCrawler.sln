@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31112.23
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "MiniCrawler", "MiniCrawler\MiniCrawler.fsproj", "{B9A13D22-0125-45A7-A554-4CC3B9F1DD28}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "MiniCrawler.Tests", "MiniCrawler.Tests\MiniCrawler.Tests.fsproj", "{B93956E8-6674-4396-B9FE-A4D6B5359DA1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B9A13D22-0125-45A7-A554-4CC3B9F1DD28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9A13D22-0125-45A7-A554-4CC3B9F1DD28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9A13D22-0125-45A7-A554-4CC3B9F1DD28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9A13D22-0125-45A7-A554-4CC3B9F1DD28}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B93956E8-6674-4396-B9FE-A4D6B5359DA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B93956E8-6674-4396-B9FE-A4D6B5359DA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B93956E8-6674-4396-B9FE-A4D6B5359DA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B93956E8-6674-4396-B9FE-A4D6B5359DA1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D44A8D40-1159-4941-A850-07381E755BAD}
+	EndGlobalSection
+EndGlobal
