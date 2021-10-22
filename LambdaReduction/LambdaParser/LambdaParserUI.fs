@@ -33,7 +33,7 @@ module LambdaParserUI =
     /// parse string with named definitions and lambda-expression from given string
     /// returns option with abstract syntax tree, if expressions were in correct form; otherwise returns None
     let parseFromString (inputString: string) = 
-        let splitted = inputString.Split([| "+"; |], StringSplitOptions.None) |> Array.toList
+        let splitted = inputString.Split([| "\n"; "\r"; "\r\n"; "+" |], StringSplitOptions.None) |> Array.toList
         getAST splitted
 
     /// parse string with named definitions and lambda-expression from file
