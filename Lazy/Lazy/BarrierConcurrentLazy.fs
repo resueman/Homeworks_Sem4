@@ -9,9 +9,9 @@
 
         interface ILazy<'a> with 
             member this.Get () =
-                lock lockObj (fun () -> 
-                    if instance.IsNone then 
-                        let value = supplier() |> Some
-                        instance <- value)
-
+                if instance.IsNone then                
+                    lock lockObj (fun () -> 
+                        if instance.IsNone then 
+                            let value = supplier() |> Some
+                            instance <- value)
                 instance.Value

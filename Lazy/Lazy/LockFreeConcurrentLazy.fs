@@ -5,6 +5,7 @@
     /// Returns a lazily initialized value with a guarantee of correct work in a multithreading program
     /// The first call causes the calculation and returns the result, next calls return the same object as the first call
     type LockFreeConcurrentLazy<'a>(supplier: unit -> 'a) = 
+        [<VolatileField>]
         let mutable instance = None
 
         interface ILazy<'a> with 
