@@ -17,7 +17,7 @@ let printMenu =
 
 let printOptions =
     printfn "Please, choose option:"
-    printfn "1 <string> -- Enter input as string"
+    printfn "1 <string> -- Enter input as string (THE DELIMITER IS '+' CHAR)"
     printfn "2 <filename> -- Get input from file"
 
 let processAST option = 
