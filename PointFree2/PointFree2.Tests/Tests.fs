@@ -1,4 +1,4 @@
-/// Contains tests for functions that maps list tail
+/// Contains tests for functions that map list tail
 module PointFree2.Tests
 
     open NUnit.Framework
