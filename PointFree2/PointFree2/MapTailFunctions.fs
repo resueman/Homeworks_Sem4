@@ -8,4 +8,6 @@ module MapTailFunctions =
      
     let f' g = List.tail >> List.map g
 
-    let f'' g l = ((>>) List.tail) << List.map <| g l // let f'' = ((>>) List.tail) << List.map, без указания g и l ругается
+    let f'' g l = (((>>) List.tail) << List.map) g l
+
+    //let f''' = ((>>) List.tail) << List.map, без указания g и l ругается
